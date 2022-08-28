@@ -1,6 +1,7 @@
 import express, {Request, Response} from 'express';
+import IController from './IController';
 
-class PostsController {
+class PostsController implements IController{
   public path = '/posts';
   public router = express.Router();
 
@@ -17,7 +18,7 @@ class PostsController {
     res.send("OKOKOKOKOKOK")
   }
 
-  getPostById(req: Request, res: Response) {
+  getPostById(req: Request, res: Response): void {
     res.send("IDIDID")
   }
 }

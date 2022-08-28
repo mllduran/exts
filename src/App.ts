@@ -1,32 +1,31 @@
 import express from 'express';
 import loggerMiddleware from './middlewares/loggerMiddleware';
+import IController from './controllers/IController';
 
 class App {
   public app: express.Application;
-  public port: number;
 
-  constructor(controllers: object[], port: number) {
+  constructor(controllers: IController[]) {
     this.app = express();
-    this.port = port;
 
     this.initializeMiddlewares();
     this.initializeControllers(controllers);
   }
 
-  private initializeMiddlewares() {
+  private initializeMiddlewares(): void {
     this.app.use(express.json());
     this.app.use(loggerMiddleware);
   }
 
-  private initializeControllers(controllers: object[]) {
-    controllers.forEach((controller: any) => {
+  private initializeControllers(controllers: IController[]): void {
+    controllers.forEach((controller: IController) => {
       this.app.use('/', controller.router)
     });
   }
 
-  public listen() {
-    this.app.listen(this.port, () => {
-      console.log(`PORT ${this.port}`);
+  public listen(port: number): void {
+    this.app.listen(port, () => {
+      console.log(`PORT ${port}`);
     });
   }
 }
