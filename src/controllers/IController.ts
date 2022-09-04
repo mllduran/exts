@@ -6,5 +6,4 @@ interface IController {
   initializeRoutes: Function;
 }
 
-
 export default IController;

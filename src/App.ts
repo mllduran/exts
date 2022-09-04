@@ -3,7 +3,7 @@ import IController from './controllers/IController';
 import loggerMiddleware from './middlewares/loggerMiddleware';
 
 class App {
-  private app: express.Application;
+  public app: express.Application;
 
   constructor(controllers: IController[]) {
     this.app = express();
@@ -17,9 +17,9 @@ class App {
     this.app.use(loggerMiddleware);
   }
 
-  private initializeControllers(controllers: IController[]): void {
-    controllers.forEach((crt: IController) => {
-      this.app.use('/', crt.router)
+  private initializeControllers(controllers: object[]) {
+    controllers.forEach((controller: any) => {
+      this.app.use('/', controller.router)
     });
   }
 

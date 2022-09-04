@@ -1,13 +1,10 @@
-import express, {Request, Response, IRouter} from 'express';
-import IController from './IController';
+import express, {Request, Response} from 'express';
 
-class PostsController implements IController {
-  public path: string = '/posts';
-  public router: IRouter = express.Router();
-  private providers: Object;
+class PostsController {
+  public path = '/posts';
+  public router = express.Router();
 
   constructor(providers: Object) {
-    this.providers = providers;
     this.initializeRoutes();
   }
 
@@ -20,8 +17,8 @@ class PostsController implements IController {
     res.send('OKOKOKO');
   }
 
-  getPostById = async (req: Request, res: Response): Promise<void> => {
-    res.send("IDIDID");
+  getPostById(req: Request, res: Response) {
+    res.send("IDIDID")
   }
 }
 
