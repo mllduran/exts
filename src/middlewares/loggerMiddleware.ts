@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 function loggerMiddleware (req: Request, res: Response, next: NextFunction): void {
-  console.log('LOGGER MIDDLEWARE');
+  console.log(`${req.method} ${req.path}`);
   next();
 }
 
