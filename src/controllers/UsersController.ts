@@ -1,5 +1,5 @@
 import express, {Request, Response, IRouter} from 'express';
-import { logInfo } from '../utils/Logger';
+import logger from '../utils/ContextLogger';
 import IController from './IController';
 import { userValidations, userActions } from '../services/users'
 
@@ -23,7 +23,7 @@ class UsersController implements IController {
     userValidations.getUsers(req);
     const resp = await userActions.getUsers(this.providers);
 
-    logInfo("FOOBARRBAZZZ")
+    logger.info("FOOBARRBAZZZ")
 
     res.send(resp);
   }

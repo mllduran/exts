@@ -12,18 +12,16 @@ export default function loggerMiddleware(req: Request, res: Response, next: Next
   }
 
   asyncLocalStorage.run(requestId, () => {
-    const reqid: string = asyncLocalStorage.getStore() as string;
-
     logger.info({
-      request:'request',
-      requestId: reqid,
+      direction:'request',
+      requestId: requestId,
       method: req.method,
       path: req.path,
       headers: req.headers,
       body: req.body
     });
 
-    res.setHeader('Request-Id', reqid);
+    res.setHeader('Request-Id', requestId);
 
     logResponseBody(req, res, requestId)
 
@@ -47,7 +45,7 @@ function logResponseBody(req: Request, res: Response, requestId: string) {
       const body = Buffer.concat(chunks).toString('utf8');
 
       logger.info({
-        response: 'response',
+        direction: 'response',
         requestId,
         headers: res.getHeaders(),
         body: body
