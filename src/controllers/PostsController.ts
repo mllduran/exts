@@ -1,10 +1,13 @@
 import express, {Request, Response} from 'express';
+import { ProvidersType } from '../providers/Providers';
 
 class PostsController {
   public path = '/posts';
   public router = express.Router();
+  private providers;
 
-  constructor(providers: Object) {
+  constructor(private readonly prov: ProvidersType) {
+    this.providers = prov;
     this.initializeRoutes();
   }
 

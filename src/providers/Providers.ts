@@ -11,15 +11,13 @@ export type ProvidersType = {
 }
 class Providers {
   public config: object;
-  private _providers: ProvidersType | null;
+  public providers!: ProvidersType;
 
   constructor(config: object) {
     this.config = config;
-    this._providers = null;
   }
 
   public async initialize(): Promise<void> {
-
     const database = new MySql({
       host: 'localhost',
       user: 'root',
@@ -29,15 +27,11 @@ class Providers {
     })
     await database.connect();
 
-    this._providers = {
+    this.providers = {
       models: {
         users: new UsersModel(database)
       }
     }
-  }
-
-  public get providers(): ProvidersType {
-    return this._providers as ProvidersType;
   }
 }
 

@@ -6,7 +6,15 @@ import UsersController from './controllers/UsersController';
 
 
 const main = async () => {
-  const config = {};
+  const config = {
+    db: {
+      host: 'localhost',
+      user: 'root',
+      password: 'password',
+      database: 'testing',
+      connectionLimit: 10,
+    }
+  };
   const providers = new Providers(config);
 
   await providers.initialize();
