@@ -1,4 +1,4 @@
-import userActions from "./UserActions";
-import userValidations from "./UsersValidations";
+import userActions from "./userActions";
+import userValidations from "./usersValidations";
 
 export { userValidations, userActions };

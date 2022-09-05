@@ -13,6 +13,7 @@ class App {
   }
 
   private initializeMiddlewares(): void {
+    this.app.disable('x-powered-by');
     this.app.use(express.json());
     this.app.use(loggerMiddleware);
   }
