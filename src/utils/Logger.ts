@@ -1,5 +1,4 @@
 import pino from 'pino';
-import {getRequestId} from './AsyncContext';
 
 const logger = pino({
   base: null,

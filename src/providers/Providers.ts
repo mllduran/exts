@@ -1,20 +1,43 @@
+import IDbConnection from './lib/database/IDbConnection';
+import MySql from './lib/database/MySql';
+import UsersModel from './models/UsersModel';
+
+type ModelsType = {
+  users: UsersModel
+}
+
+export type ProvidersType = {
+  models: ModelsType
+}
 class Providers {
   public config: object;
-  private _providers: object;
+  private _providers: ProvidersType | null;
 
   constructor(config: object) {
     this.config = config;
-    this._providers = {};
+    this._providers = null;
   }
 
-  public initialize(): void {
+  public async initialize(): Promise<void> {
+
+    const database = new MySql({
+      host: 'localhost',
+      user: 'root',
+      password: 'password',
+      database: 'testing',
+      connectionLimit: 10,
+    })
+    await database.connect();
+
     this._providers = {
-      foobar: (x: string) => console.log(x)
+      models: {
+        users: new UsersModel(database)
+      }
     }
   }
 
-  public get providers(): object {
-    return this._providers;
+  public get providers(): ProvidersType {
+    return this._providers as ProvidersType;
   }
 }
 

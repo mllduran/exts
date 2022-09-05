@@ -1,6 +1,9 @@
+import { ProvidersType } from "../../providers/Providers";
+
 class UserActions {
-  async getUsers(providers: object): Promise<string> {
-    return "Hello From Get Users";
+  async getUsers(providers: ProvidersType): Promise<string> {
+    const result = await providers.models.users.getUsers();
+    return result;
   }
 }
 

@@ -2,33 +2,34 @@ import express, {Request, Response, IRouter} from 'express';
 import logger from '../utils/ContextLogger';
 import IController from './IController';
 import { userValidations, userActions } from '../services/users'
+import { ProvidersType } from '../providers/Providers';
 
 class UsersController implements IController {
-  public path: string = '/users';
   public router: IRouter = express.Router();
+  public path: string = '/users';
+  private readonly providers;
 
   constructor(
-    private readonly providers: Object
+    private readonly prov: ProvidersType
   ) {
-    this.providers = providers;
+    this.providers = prov;
     this.initializeRoutes();
   }
 
   initializeRoutes(): void {
-    this.router.get(this.path, this.getUsers);
-    this.router.get(`${this.path}/:id`, this.getUserById);
+    this.router.get(this.path, this.getUsers.bind(this));
+    this.router.get(`${this.path}/:id`, this.getUserById.bind(this));
   }
 
-  getUsers = async (req: Request, res: Response): Promise<void> => {
+  async getUsers(req: Request, res: Response): Promise<void> {
     userValidations.getUsers(req);
     const resp = await userActions.getUsers(this.providers);
-
     logger.info("FOOBARRBAZZZ")
-
-    res.send(resp);
+    res.json(resp);
   }
 
-  getUserById = async (req: Request, res: Response): Promise<void> => {
+   async getUserById(req: Request, res: Response): Promise<void> {
+    console.log(this);
     res.send("IDIDID");
   }
 }
