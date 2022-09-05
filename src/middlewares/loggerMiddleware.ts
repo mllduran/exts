@@ -1,16 +1,9 @@
-import { AsyncLocalStorage } from 'node:async_hooks';
 import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import pino from 'pino';
+import logger from '../utils/Logger';
+import asyncLocalStorage from '../utils/AsyncContext';
 
-const asyncLocalStorage = new AsyncLocalStorage();
-
-const logger = pino({
-  base: null,
-  timestamp: () => `,"time":"${new Date(Date.now()).toISOString()}"`
-});
-
-function loggerMiddleware (req: Request, res: Response, next: NextFunction): void {
+export default function loggerMiddleware(req: Request, res: Response, next: NextFunction): void {
   let requestId: string;
   if (req.headers['request-id']) {
     requestId = req.headers['request-id'] as string;
@@ -42,7 +35,7 @@ function logResponseBody(req: Request, res: Response, requestId: string) {
   const [oldWrite, oldEnd] = [res.write, res.end];
   const chunks: Buffer[] = [];
 
-  (res.write as unknown) = function(chunk) {
+  (res.write as unknown) = function(chunk: Buffer) {
       chunks.push(Buffer.from(chunk));
       (oldWrite as Function).apply(res, arguments);
   };
@@ -60,24 +53,6 @@ function logResponseBody(req: Request, res: Response, requestId: string) {
         body: body
       });
 
-
-
       (oldEnd as Function).apply(res, arguments);
   };
-
 }
-
-export function getRequestId() {
-  return asyncLocalStorage.getStore();
-}
-
-export function logInfo(message: Object | string) {
-  return logger.info({requestId: getRequestId(), message});
-}
-
-export function logError(error: Object | string) {
-  return logger.error({requestId: getRequestId(), error})
-}
-
-
-export default loggerMiddleware;

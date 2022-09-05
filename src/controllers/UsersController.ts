@@ -1,7 +1,7 @@
 import express, {Request, Response, IRouter} from 'express';
+import { logInfo } from '../utils/Logger';
 import IController from './IController';
 import { userValidations, userActions } from '../services/users'
-import { logInfo } from '../middlewares/loggerMiddleware';
 
 class UsersController implements IController {
   public path: string = '/users';
@@ -22,7 +22,9 @@ class UsersController implements IController {
   getUsers = async (req: Request, res: Response): Promise<void> => {
     userValidations.getUsers(req);
     const resp = await userActions.getUsers(this.providers);
-    logInfo("FOOBARBASZZZ")
+
+    logInfo("FOOBARRBAZZZ")
+
     res.send(resp);
   }
 
